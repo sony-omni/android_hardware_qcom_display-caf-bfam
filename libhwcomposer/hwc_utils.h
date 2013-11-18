@@ -117,7 +117,6 @@ struct ListStats {
     // Notifies hwcomposer about the start and end of animation
     // This will be set to true during animation, otherwise false.
     bool isDisplayAnimating;
-    ovutils::Dim roi;
     bool secureUI; // Secure display layer
     bool isSecurePresent;
     hwc_rect_t lRoi;  //left ROI
@@ -269,6 +268,7 @@ int getExtOrientation(hwc_context_t* ctx);
 bool isValidRect(const hwc_rect_t& rect);
 hwc_rect_t deductRect(const hwc_rect_t& rect1, const hwc_rect_t& rect2);
 hwc_rect_t moveRect(const hwc_rect_t& rect, const int& x_off, const int& y_off);
+bool isSameRect(const hwc_rect& rect1, const hwc_rect& rect2);
 hwc_rect_t getIntersection(const hwc_rect_t& rect1, const hwc_rect_t& rect2);
 hwc_rect_t getUnion(const hwc_rect_t& rect1, const hwc_rect_t& rect2);
 void optimizeLayerRects(hwc_context_t *ctx,
@@ -305,8 +305,11 @@ int getMirrorModeOrientation(hwc_context_t *ctx);
 /* Get External State names */
 const char* getExternalDisplayState(uint32_t external_state);
 
+// Resets display ROI to full panel resoluion
+void resetROI(hwc_context_t *ctx, const int dpy);
+
 // Aligns updating ROI to panel restrictions
-hwc_rect_t sanitizeROI(struct hwc_rect roi, hwc_rect boundary);
+hwc_rect_t getSanitizeROI(struct hwc_rect roi, hwc_rect boundary);
 
 // Handles wfd Pause and resume events
 void handle_pause(hwc_context_t *ctx, int dpy);
