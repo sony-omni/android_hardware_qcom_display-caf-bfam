@@ -1,3 +1,4 @@
+ifeq ($(TARGET_QCOM_DISPLAY_VARIANT),caf-bfam)
 # This flag will be set to true during migration to Snapdragon Display Engine.
 TARGET_USES_SDE = false
 
@@ -16,5 +17,6 @@ ifeq ($(call is-vendor-board-platform,QCOM),true)
 else
 ifneq ($(filter msm% apq%,$(TARGET_BOARD_PLATFORM)),)
     include $(call all-named-subdir-makefiles,$(display-hals))
+endif
 endif
 endif
