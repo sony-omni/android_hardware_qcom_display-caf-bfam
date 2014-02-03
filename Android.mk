@@ -1,7 +1,10 @@
 ifeq ($(TARGET_QCOM_DISPLAY_VARIANT),caf-bfam)
-display-hals := libgralloc libgenlock libcopybit liblight libvirtual
+display-hals := libgralloc libcopybit llibvirtual
 display-hals += libhwcomposer liboverlay libqdutils libhdmi libqservice
 display-hals += libmemtrack hdmi_cec
+ifneq ($(TARGET_PROVIDES_LIBLIGHT),true)
+display-hals += liblight
+endif
 ifeq ($(call is-vendor-board-platform,QCOM),true)
     include $(call all-named-subdir-makefiles,$(display-hals))
 else
