@@ -1,19 +1,19 @@
 #Common headers
-common_includes := $(LOCAL_PATH)/../libgralloc
-common_includes += $(LOCAL_PATH)/../liboverlay
-common_includes += $(LOCAL_PATH)/../libcopybit
-common_includes += $(LOCAL_PATH)/../libqdutils
-common_includes += $(LOCAL_PATH)/../libhwcomposer
-common_includes += $(LOCAL_PATH)/../libhdmi
-common_includes += $(LOCAL_PATH)/../libqservice
-common_includes += $(LOCAL_PATH)/../libvirtual
+common_includes := hardware/qcom/display-caf-bfam/libgralloc
+common_includes += hardware/qcom/display-caf-bfam/liboverlay
+common_includes += hardware/qcom/display-caf-bfam/libcopybit
+common_includes += hardware/qcom/display-caf-bfam/libqdutils
+common_includes += hardware/qcom/display-caf-bfam/libhwcomposer
+common_includes += hardware/qcom/display-caf-bfam/libhdmi
+common_includes += hardware/qcom/display-caf-bfam/libqservice
+common_includes += hardware/qcom/display-caf-bfam/libvirtual
 
 ifeq ($(TARGET_USES_POST_PROCESSING),true)
     common_flags     += -DUSES_POST_PROCESSING
     common_includes  += $(TARGET_OUT_HEADERS)/pp/inc
 endif
 
-common_header_export_path := qcom/display
+common_header_export_path := qcom/display-caf-bfam
 
 #Common libraries external to display HAL
 common_libs := liblog libutils libcutils libhardware
