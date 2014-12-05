@@ -5,6 +5,7 @@ common_includes += hardware/qcom/display-caf-bfam/libcopybit
 common_includes += hardware/qcom/display-caf-bfam/libqdutils
 common_includes += hardware/qcom/display-caf-bfam/libhwcomposer
 common_includes += hardware/qcom/display-caf-bfam/libexternal
+common_includes += hardware/qcom/display-caf-bfam/libqdutils
 common_includes += hardware/qcom/display-caf-bfam/libqservice
 common_includes += hardware/qcom/display-caf-bfam/libvirtual
 
