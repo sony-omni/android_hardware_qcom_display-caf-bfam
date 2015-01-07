@@ -65,6 +65,7 @@ class CopyBit;
 class HwcDebug;
 class AssertiveDisplay;
 class VPUClient;
+class HWCVirtualBase;
 
 
 struct MDPInfo {
@@ -80,6 +81,7 @@ struct DisplayAttributes {
     uint32_t stride;
     float xdpi;
     float ydpi;
+    bool secure;
     int fd;
     bool connected; //Applies only to pluggable disp.
     //Connected does not mean it ready to use.
@@ -252,6 +254,9 @@ void sanitizeSourceCrop(hwc_rect_t& cropL, hwc_rect_t& cropR,
 bool isAlphaPresent(hwc_layer_1_t const* layer);
 int hwc_vsync_control(hwc_context_t* ctx, int dpy, int enable);
 int getBlending(int blending);
+bool isGLESOnlyComp(hwc_context_t *ctx, const int& dpy);
+void reset_layer_prop(hwc_context_t* ctx, int dpy, int numAppLayers);
+void dumpBuffer(private_handle_t *ohnd, char *bufferName);
 
 //Helper function to dump logs
 void dumpsys_log(android::String8& buf, const char* fmt, ...);
@@ -514,6 +519,7 @@ struct hwc_context_t {
     qhwc::AssertiveDisplay *mAD;
     qhwc::VPUClient *mVPUClient;
     eAnimationState mAnimationState[HWC_NUM_DISPLAY_TYPES];
+    qhwc::HWCVirtualBase *mHWCVirtual;
 
     // stores the #numHwLayers of the previous frame
     // for each display device
@@ -550,6 +556,11 @@ struct hwc_context_t {
     bool mMDPDownscaleEnabled;
     // number of active Displays
     int numActiveDisplays;
+
+    // Is WFD enabled through VDS solution ?
+    // This can be set via system property
+    // persist.hwc.enable_vds
+    bool mVDSEnabled;
     struct gpu_hint_info mGPUHintInfo;
     // PTOR Info
     qhwc::PtorInfo mPtorInfo;
@@ -577,6 +588,11 @@ inline bool isSecurePresent(hwc_context_t *ctx, int dpy) {
 static inline bool isSecondaryConnected(hwc_context_t* ctx) {
     return (ctx->dpyAttr[HWC_DISPLAY_EXTERNAL].connected ||
     ctx->dpyAttr[HWC_DISPLAY_VIRTUAL].connected);
+}
+
+static inline bool isSecondaryConfiguring(hwc_context_t* ctx) {
+    return (ctx->dpyAttr[HWC_DISPLAY_EXTERNAL].isConfiguring ||
+            ctx->dpyAttr[HWC_DISPLAY_VIRTUAL].isConfiguring);
 }
 
 };
