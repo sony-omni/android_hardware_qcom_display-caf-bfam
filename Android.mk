@@ -1,5 +1,5 @@
 ifeq ($(TARGET_QCOM_DISPLAY_VARIANT),caf-bfam)
-display-hals := libgralloc libcopybit llibvirtual
+display-hals := libgralloc libcopybit libvirtual
 display-hals += libhwcomposer liboverlay libqdutils libhdmi libqservice
 display-hals += libmemtrack hdmi_cec
 ifneq ($(TARGET_PROVIDES_LIBLIGHT),true)
