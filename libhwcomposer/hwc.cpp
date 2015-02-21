@@ -405,10 +405,11 @@ static int hwc_blank(struct hwc_composer_device_1* dev, int dpy, int blank)
             return -1;
         }
 
-        if(!blank) {
+        if(!blank && !ctx->mHPDEnabled) {
             // Enable HPD here, as during bootup unblank is called
             // when SF is completely initialized
             ctx->mExtDisplay->setHPD(1);
+            ctx->mHPDEnabled = true;
         }
 
         ctx->dpyAttr[dpy].isActive = !blank;
@@ -571,6 +572,12 @@ static int hwc_set_primary(hwc_context_t *ctx, hwc_display_contents_1_t* list) {
             hnd = ctx->mCopyBit[dpy]->getCurrentRenderBuffer();
         }
 
+        if(isAbcInUse(ctx) == true) {
+            int index = ctx->listStats[dpy].renderBufIndexforABC;
+            hwc_layer_1_t *tempLayer = &list->hwLayers[index];
+            hnd = (private_handle_t *)tempLayer->handle;
+        }
+
         if(hnd) {
             if (!ctx->mFBUpdate[dpy]->draw(ctx, hnd)) {
                 ALOGE("%s: FBUpdate draw failed", __FUNCTION__);
@@ -620,18 +627,12 @@ static int hwc_set_external(hwc_context_t *ctx,
             ret = -1;
         }
 
-        int extOnlyLayerIndex =
-                ctx->listStats[dpy].extOnlyLayerIndex;
-
         private_handle_t *hnd = (private_handle_t *)fbLayer->handle;
-        if(extOnlyLayerIndex!= -1) {
-            hwc_layer_1_t *extLayer = &list->hwLayers[extOnlyLayerIndex];
-            hnd = (private_handle_t *)extLayer->handle;
-        } else if(copybitDone) {
+        if(copybitDone) {
             hnd = ctx->mCopyBit[dpy]->getCurrentRenderBuffer();
         }
 
-        if(hnd && !isYuvBuffer(hnd)) {
+        if(hnd) {
             if (!ctx->mFBUpdate[dpy]->draw(ctx, hnd)) {
                 ALOGE("%s: FBUpdate::draw fail!", __FUNCTION__);
                 ret = -1;
