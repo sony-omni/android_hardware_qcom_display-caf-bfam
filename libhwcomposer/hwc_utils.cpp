@@ -1189,8 +1189,6 @@ bool isRotatorSupportedFormat(private_handle_t *hnd) {
     if(hnd != NULL) {
         switch(hnd->format) {
             case HAL_PIXEL_FORMAT_RGBA_8888:
-            case HAL_PIXEL_FORMAT_RGBA_5551:
-            case HAL_PIXEL_FORMAT_RGBA_4444:
             case HAL_PIXEL_FORMAT_RGB_565:
             case HAL_PIXEL_FORMAT_RGB_888:
             case HAL_PIXEL_FORMAT_BGRA_8888:
