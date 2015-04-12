@@ -222,6 +222,7 @@ static void reset(hwc_context_t *ctx, int numDisplays,
             ctx->mLayerRotMap[i]->reset();
     }
 
+    memset(&(ctx->mPtorInfo), 0, sizeof(ctx->mPtorInfo));
     ctx->mAD->reset();
 
 }
@@ -523,7 +524,7 @@ static int hwc_setPowerMode(struct hwc_composer_device_1* dev, int dpy,
         }
         break;
     case HWC_DISPLAY_EXTERNAL:
-        if(mode == HWC_POWER_MODE_OFF) {
+        if(mode == HWC_POWER_MODE_OFF and ctx->dpyAttr[dpy].connected) {
             if(!Overlay::displayCommit(ctx->dpyAttr[dpy].fd)) {
                 ALOGE("%s: displayCommit failed for external", __FUNCTION__);
                 ret = -1;
