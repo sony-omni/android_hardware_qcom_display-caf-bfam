@@ -73,7 +73,7 @@ int IonAlloc::alloc_buffer(alloc_data& data)
 
     ionAllocData.len = data.size;
     ionAllocData.align = data.align;
-#ifdef QCOM_BSP
+#ifndef QCOM_BSP
     ionAllocData.heap_mask = data.flags & ~ION_SECURE;
 #else
     ionAllocData.heap_id_mask = data.flags & ~ION_SECURE;
